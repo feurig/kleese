@@ -35,12 +35,13 @@ if __name__ == "__main__":
             result=subprocess.run(["git", "remote", "update"],
                                    cwd=local_copy, capture_output=True)
             print(result.stdout.decode(), end='')
-            print(result.stderr.decode(), end='')
-            
+            print(result.stderr.decode(), end='')            
         else:
             print("create new mirror at: "+local_copy)
-            result=subprocess.run(["git","clone","--mirror", url, local_copy], capture_output=True)
+            result=subprocess.run(["git","clone","--mirror", url, 
+                                  local_copy], capture_output=True)
             print(result.stdout.decode(), end='')
+            print(result.stderr.decode(), end='')
 
         #print(local_copy)
         #mypath="/srv/git/mirrors/github/"+repo.ssh_url.split(':')[1]
