@@ -1,0 +1,17 @@
+git.suspectdevices.com {
+#    tls /etc/letsencrypt/live/git.suspectdevices.com/fullchain.pem /etc/letsencrypt/live/git.suspectdevices.com/privkey.pem
+
+    handle_path /cgit-css/* {
+       root * /usr/share/cgit/
+       file_server
+    }
+
+    handle {
+            reverse_proxy localhost:8999 {
+                        transport fastcgi {
+                                env DOCUMENT_ROOT /usr/lib/cgit/
+                                env SCRIPT_FILENAME /usr/lib/cgit/cgit.cgi
+                        }
+                }
+    }
+}

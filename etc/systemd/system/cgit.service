@@ -1,0 +1,10 @@
+[Unit]
+Description=CGI web interface to the Git SCM
+After=network.target
+
+[Service]
+Type=exec
+ExecStart=fcgiwrap -f -p "/usr/lib/cgit/cgit.cgi" -s tcp:127.0.0.1:8999
+
+[Install]
+WantedBy=multi-user.target
