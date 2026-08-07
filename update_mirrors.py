@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+
+
+
 import os
 import subprocess
 from github import Github
@@ -23,27 +26,47 @@ def myrepos() :
     g.close()
     return(repos)
 
+#repo.url=wcm
+#repo.owner=yctct
+#repo.path=/home/git/repositories/wcm.git
+#repo.desc= a script to count words in Markdown files
+#
+# Consider sorting by prefix and making group entries
 if __name__ == "__main__":
 
     local_prefix="/srv/git/mirrors/github/"
-    
-    for url in myrepos():
-        #print(url)
-        local_copy=local_prefix+url.split(':')[1]
-        if os.path.isdir(local_copy):
-            print("updating local copy: " + local_copy)
-            result=subprocess.run(["git", "remote", "update"],
-                                   cwd=local_copy, capture_output=True)
-            print(result.stdout.decode(), end='')
-            print(result.stderr.decode(), end='')            
-        else:
-            print("create new mirror at: "+local_copy)
-            result=subprocess.run(["git","clone","--mirror", url, 
-                                  local_copy], capture_output=True)
-            print(result.stdout.decode(), end='')
-            print(result.stderr.decode(), end='')
+    g = mygithub()
+    with open("/srv/git/repolist", "w") as repolist:
+        
+        for repo in g.get_user().get_repos():
+            url=repo.ssh_url
+            shortname = url.split(':')[1].split('.')[0]
+            local_copy=local_prefix+url.split(':')[1]
 
-        #print(local_copy)
-        #mypath="/srv/git/mirrors/github/"+repo.ssh_url.split(':')[1]
-        #print("git clone --mirror " +repo.ssh_url+" "+mypath)
+            repolist.write("repo.url="+shortname+"\n")
+            # repolist.write("repo.url="+url+"\n")
+            repolist.write("repo.owner=feurig\n")
+            repolist.write("repo.path="+local_copy+"\n")
+            description = repo.description
+            if repo.description is None:
+                description = "No Description Provided"
+            repolist.write("repo.desc="+description+"\n")
+            
+            if os.path.isdir(local_copy):
+                print("updating local copy: " + local_copy)
+                result=subprocess.run(["git", "remote", "update"],
+                                    cwd=local_copy, capture_output=True)
+                print(result.stdout.decode(), end='')
+                print(result.stderr.decode(), end='')            
+            else:
+                print("create new mirror at: "+local_copy)
+                result=subprocess.run(["git","clone","--mirror", url, 
+                                    local_copy], capture_output=True)
+                print(result.stdout.decode(), end='')
+                print(result.stderr.decode(), end='')
+        
+            #print(local_copy)
+            #mypath="/srv/git/mirrors/github/"+repo.ssh_url.split(':')[1]
+            #print("git clone --mirror " +repo.ssh_url+" "+mypath)
+        g.close()
     

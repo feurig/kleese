@@ -23,7 +23,7 @@ Bitbucket is where our private repositories are kept.
 
 For some reason python3-github was different enough that I had to install PyGithub with pip and --break-system-packages.
 
-https://pygithub.readthedocs.io/en/stable/github_objects/Repository.html#github.Repository.Repository.ssh_url
+https://pygithub.readthedocs.io/en/stable/github_objects/Repository.html
 
 So the idea is to check for all of the repos that I own/clon/participate in and mirror them. 
 
@@ -32,3 +32,6 @@ So the idea is to check for all of the repos that I own/clon/participate in and 
         - create a mirror
     - else 
         - update the mirror
+
+## cgit
+
