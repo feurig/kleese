@@ -8,4 +8,7 @@ git.suspectdevices.com {
                         transport fastcgi {
                                 env DOCUMENT_ROOT /usr/lib/cgit/
                                 env SCRIPT_FILENAME /usr/lib/cgit/cgit.cgi
-}   }           }        }
+                                           }
+                                          } 
+           }
+}

@@ -24,13 +24,15 @@ mimetype.jpeg=image/jpeg
 
 root-title=SuspectDevices: Git 
 root-desc=Mirror of public repositories
-#root-readme=/srv/git/kleese/README.md
+root-readme=/srv/git/kleese/README.md
+
 about-filter=/usr/lib/cgit/filters/about-formatting.sh
 source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
 
 max-repo-count=100
 
 readme=:README.md
+readme=:README.markdown
 readme=:README.txt
 readme=:README.html
 readme=:README

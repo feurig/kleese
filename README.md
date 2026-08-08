@@ -56,7 +56,7 @@ After extensive digging around I wanted to find a solution where I could mirror 
 First we install the software.
 
 ```sh
-apt install -y caddy fcgiwrap cgit python3-pygments man
+apt install -y caddy fcgiwrap cgit python3-pygments man 
 ```
 
 Rather than modify fcgiwrap's configuration create a new service.
@@ -80,7 +80,79 @@ systemctl start cgit
 This is combined with the following caddy file serves up the cgit.
 
 ```sh
+git.suspectdevices.com {
+    handle_path /cgit-css/* {
+       root * /usr/share/cgit/
+       file_server
+    }
+    handle {
+            reverse_proxy localhost:8999 {
+                        transport fastcgi {
+                                env DOCUMENT_ROOT /usr/lib/cgit/
+                                env SCRIPT_FILENAME /usr/lib/cgit/cgit.cgi
+}   }           }        }
+```
 
+### configuring cgit
+
+```sh
+#
+# cgit config
+# see cgitrc(5) for details
+#css=/cgit-css/cgit.css
+#logo=/cgit-css/cgit.png
+#
+# cgit config
+# see cgitrc(5) for details
+
+css=/cgit-css/cgit.css
+logo=/cgit-css/cgit.png
+robots=nofollow
+
+mimetype.html=text/html
+mimetype.js=text/javascript
+mimetype.css=text/css
+mimetype.pl=text/x-script.perl
+mimetype.pm=text/x-script.perl-module
+mimetype.py=text/x-script.python
+mimetype.png=image/png
+mimetype.gif=image/gif
+mimetype.jpg=image/jpeg
+mimetype.jpeg=image/jpeg
+
+root-title=SuspectDevices: Git 
+root-desc=Mirror of public repositories
+
+about-filter=/usr/lib/cgit/filters/about-formatting.sh
+source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
+
+max-repo-count=100
+
+readme=:README.md
+readme=:README.txt
+readme=:README.html
+readme=:README
+
+enable-git-config=1
+
+#scan-path=/srv/git/mirrors/github/suspect-devices
+#scan-path=/srv/git/mirrors/github
+include=/srv/git/repolist
+```
+### Adding this file to the about section.
+
+There is a root-readme directive which is supposed to add an about tab with the contents of the file referenced.
+
+```sh
+root-readme=/srv/git/kleese/README.md
+```
+
+Unfortunately cgit does not insure that the underlying python modules are installed to render it. 
+Fortunatly this is easy enough to fix.
+
+```sh
+apt install -y python3-markdown
+apt install -y python3-markdown-include
 ```
 
 - https://www.sixfoisneuf.fr/posts/setting-up-cgit-with-caddy2/
