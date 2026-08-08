@@ -157,7 +157,7 @@ apt install -y python3-markdown-include
 
 ## Footnotes and References.
 
-<a href="#footnote_1"> 1. </a> This is the second time recent nginx projects have foobarred unix sockets.
+<a name="#footnote_1"> 1. </a> This is the second time recent nginx projects have foobarred unix sockets.
 
 - https://www.sixfoisneuf.fr/posts/setting-up-cgit-with-caddy2/
 - https://github.com/notzhan/blog/blob/main/post_source/setting-up-cgit-with-caddy.md
