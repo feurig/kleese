@@ -8,6 +8,8 @@ import subprocess
 from github import Github
 from github import Auth
 from dotenv import load_dotenv
+import tempfile
+
 
 load_dotenv()
     
@@ -36,8 +38,10 @@ if __name__ == "__main__":
 
     local_prefix="/srv/git/mirrors/github/"
     g = mygithub()
-    with open("/srv/git/repolist", "w") as repolist:
-        
+
+    repolist_tmpname = tempfile.mktemp()
+    print(repolist_tmpname)
+    with open(repolist_tmpname,"w") as repolist:
         for repo in g.get_user().get_repos():
             url=repo.ssh_url
             shortname = url.split(':')[1].split('.')[0]
@@ -68,5 +72,8 @@ if __name__ == "__main__":
             #print(local_copy)
             #mypath="/srv/git/mirrors/github/"+repo.ssh_url.split(':')[1]
             #print("git clone --mirror " +repo.ssh_url+" "+mypath)
-        g.close()
+        
+    g.close()
+    
+    os.replace(repolist_tmpname,"/srv/git/repolist")
     

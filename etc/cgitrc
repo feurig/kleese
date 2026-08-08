@@ -24,7 +24,7 @@ mimetype.jpeg=image/jpeg
 
 root-title=SuspectDevices: Git 
 root-desc=Mirror of public repositories
-
+#root-readme=/srv/git/kleese/README.md
 about-filter=/usr/lib/cgit/filters/about-formatting.sh
 source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
 
