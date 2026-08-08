@@ -37,7 +37,7 @@ So the idea is to check for all of the repos that I own/clone/participate in and
 
 ### update_mirrors.py
 
-The rudiments of a mirror program is at https://github.com/feurig/kleese/blob/main/update_mirrors.py
+The rudiments of a mirror program is at [https://github.com/feurig/kleese/blob/main/update_mirrors.py](https://github.com/feurig/kleese/blob/main/update_mirrors.py)
 
 ```sh
 apt install -y python3-pip python3-pygit2 python3-dotenv cron
@@ -51,7 +51,7 @@ crontab -e
 
 ## cgit and caddy
 
-After extensive digging around I wanted to find a solution where I could mirror git repositories and access the mirrors using ssh. The only solution that did not require storing the repositories in a more complicated and proprietary way was cgit.As it turns out cgit and caddy are the simplest way to display the mirrored git repositories. unfortunately cgit is a cgi program. The easiest way to do cgi is fcgiwrap. Most of the tutorials use nginx which doesnt play well with unix sockets. After pulling my hair out and perhaps realizing that the F5 branded nginx was being less than useful. [Footnote #1](#footnote_1) Fortunately I found a [1 page tutorial](https://www.sixfoisneuf.fr/posts/setting-up-cgit-with-caddy2/) that works.
+After extensive digging around I wanted to find a solution where I could mirror git repositories and access the mirrors using ssh. The only solution that did not require storing the repositories in a more complicated and proprietary way was cgit.As it turns out cgit and caddy are the simplest way to display the mirrored git repositories. unfortunately cgit is a cgi program. The easiest way to do cgi is fcgiwrap. Most of the tutorials use nginx which doesnt play well with unix sockets. After pulling my hair out, and perhaps realizing that the F5 branded nginx was being less than useful, [Footnote #1](#footnote_1)  I found a [1 page tutorial](https://www.sixfoisneuf.fr/posts/setting-up-cgit-with-caddy2/) that works.
 
 First we install the software.
 
@@ -154,6 +154,10 @@ Fortunatly this is easy enough to fix.
 apt install -y python3-markdown
 apt install -y python3-markdown-include
 ```
+
+## Footnotes and References.
+
+<a href="#footnote_1"> 1. </a> This is the second time recent nginx projects have foobarred unix sockets.
 
 - https://www.sixfoisneuf.fr/posts/setting-up-cgit-with-caddy2/
 - https://github.com/notzhan/blog/blob/main/post_source/setting-up-cgit-with-caddy.md
