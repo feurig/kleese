@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# TODO put repolist in tmpfile and then move it to /srv/git/repolist
 
 
 
