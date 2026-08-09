@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
-# TODO put repolist in tmpfile and then move it to /srv/git/repolist
-
-
+#
+#  So the idea is to check for all of the repos that I own/clone/participate in and mirror them. 
+#
+#  foreach repo.
+#    if repo is not mirrored
+#         create a mirror
+#     else 
+#         update the mirror
+#.   add the entry into /srv/git/repolist 
 
 import os
 import subprocess

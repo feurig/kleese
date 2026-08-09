@@ -2,7 +2,21 @@
 
 Git mirror Site and Code. (kleese is a git)
 
-## Goal.
+## TLDR:
+
+- install pre-recs
+- create git user with /srv/git as a home 
+- su - git
+- clone this repo
+- create a github access token with read only access
+- create /srv/git/kleese/.env file with AUTH_TOKEN="<the access token>"
+- add */10 * * * * /srv/git/kleese/update_mirrors.py to git's crontab
+- link etc/caddy/Caddyfile and etc/cgitrc into /etc/
+- create and enable cgit.service
+- enable caddy
+
+## Goal (because apparently everything needs a fucking acceptance criteria)
+
 With microsoft and atlassian enshittifying everything mirror your content to servers you control. 
 
 ### start with github 
@@ -15,6 +29,7 @@ Github contains our public repositories.
 - consider moving the blog content to git.suspectdevices.com just to be courteous.
 
 ### Move on to bitbucket. 
+
 Bitbucket is where our private repositories are kept. 
 - write enough python to automate mirrors to (katherine aka mia zapatta of the Gits.) git server at home.
 
@@ -23,9 +38,13 @@ Bitbucket is where our private repositories are kept.
 
 ### PyGithub
 
+PyGithup lets us get all of the repos that belong to me. The info we are interested in is in the [repository object](https://pygithub.readthedocs.io/en/stable/github_objects/Repository.html)
+
+#### Installing Pygithub on Debian
+
 For some reason python3-github was different enough that I had to install PyGithub with pip and --break-system-packages.
 
-https://pygithub.readthedocs.io/en/stable/github_objects/Repository.html
+
 
 So the idea is to check for all of the repos that I own/clone/participate in and mirror them. 
 
@@ -90,21 +109,20 @@ git.suspectdevices.com {
                         transport fastcgi {
                                 env DOCUMENT_ROOT /usr/lib/cgit/
                                 env SCRIPT_FILENAME /usr/lib/cgit/cgit.cgi
-}   }           }        }
+                                          }
+                                         }
+            }          
+}
 ```
 
 ### configuring cgit
+
+The /etc/gitrc below is rudimentry but it works. 
 
 ```sh
 #
 # cgit config
 # see cgitrc(5) for details
-#css=/cgit-css/cgit.css
-#logo=/cgit-css/cgit.png
-#
-# cgit config
-# see cgitrc(5) for details
-
 css=/cgit-css/cgit.css
 logo=/cgit-css/cgit.png
 robots=nofollow
@@ -161,3 +179,4 @@ apt install -y python3-markdown-include
 
 - https://www.sixfoisneuf.fr/posts/setting-up-cgit-with-caddy2/
 - https://github.com/notzhan/blog/blob/main/post_source/setting-up-cgit-with-caddy.md
+- https://pygithub.readthedocs.io/en/stable/github_objects/Repository.html
