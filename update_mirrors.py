@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 #
-#  So the idea is to check for all of the repos that I own/clone/participate in and mirror them. 
+# So the idea is to check for all of the repos that I own/clone/participate in and mirror them. 
 #
-#  foreach repo.
+# foreach repo.
 #    if repo is not mirrored
 #         create a mirror
 #     else 
 #         update the mirror
-#.   add the entry into /srv/git/repolist 
+#
+# add the entry into /srv/git/repolist for cgit 
+#
+#  repo.url=git@github.com/feurig/blahblah.git
+#  repo.name=wcm
+#  repo.owner=feurig
+#  repo.path=/home/git/repositories/blahblah.git
+#  repo.desc= blah blah blah
+#
+# Consider sorting by prefix and making group entries
 
 import os
 import subprocess
@@ -34,12 +43,6 @@ def myrepos() :
     g.close()
     return(repos)
 
-#repo.url=wcm
-#repo.owner=yctct
-#repo.path=/home/git/repositories/wcm.git
-#repo.desc= a script to count words in Markdown files
-#
-# Consider sorting by prefix and making group entries
 if __name__ == "__main__":
 
     local_prefix="/srv/git/mirrors/github/"
@@ -53,7 +56,8 @@ if __name__ == "__main__":
             shortname = url.split(':')[1].split('.')[0]
             local_copy=local_prefix+url.split(':')[1]
 
-            repolist.write("repo.url="+shortname+"\n")
+            repolist.write("repo.url="+url+"\n")
+            repolist.write("repo.name="+shortname.split('/')[1]+"\n")
             # repolist.write("repo.url="+url+"\n")
             repolist.write("repo.owner=feurig\n")
             repolist.write("repo.path="+local_copy+"\n")
@@ -74,11 +78,6 @@ if __name__ == "__main__":
                                     local_copy], capture_output=True)
                 print(result.stdout.decode(), end='')
                 print(result.stderr.decode(), end='')
-        
-            #print(local_copy)
-            #mypath="/srv/git/mirrors/github/"+repo.ssh_url.split(':')[1]
-            #print("git clone --mirror " +repo.ssh_url+" "+mypath)
-        
     g.close()
     
     os.replace(repolist_tmpname,"/srv/git/repolist")
