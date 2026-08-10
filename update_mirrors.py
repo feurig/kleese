@@ -80,5 +80,9 @@ if __name__ == "__main__":
                 print(result.stderr.decode(), end='')
     g.close()
     
-    os.replace(repolist_tmpname,"/srv/git/repolist")
-    
+    # os.replace(repolist_tmpname,"/srv/git/repolist")
+    result=subprocess.run(["mv", repolist_tmpname, "/srv/git/repolist"],
+                          cwd=local_copy, capture_output=True)
+    print(result.stdout.decode(), end='')
+    print(result.stderr.decode(), end='')
+
